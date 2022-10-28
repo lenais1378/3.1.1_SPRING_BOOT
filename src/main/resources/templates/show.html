@@ -25,7 +25,7 @@
                 </form>
             </td>
             <td>
-                <form th:action="@{/delete(id=${user.id})}" th:object="${user}">
+                <form th:method="DELETE" th:action="@{/delete(id=${user.id})}" th:object="${user}">
                     <input type="hidden" name="id" th:value="${user.id}">
                     <button type="submit">Удалить</button>
                 </form>
@@ -34,7 +34,7 @@
         </tr>
     </table>
     <br/>
-    <form th:action="@{/}">
+    <form th:action="@{/users}">
         <button type="submit">Назад к списку пользователей</button>
     </form>
 </div>

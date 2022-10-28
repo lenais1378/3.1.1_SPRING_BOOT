@@ -1,46 +1,51 @@
-package web.service;
+package com.example.spring.service;
 
+import com.example.spring.repository.UserRepository;
+import com.example.spring.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import web.dao.UserDao;
-import web.model.User;
+
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@Transactional
 public class UserServiceImp implements UserService {
 
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Autowired
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public void addUser(User user) {
-        userDao.addUser(user);
+        userRepository.save(user);
     }
 
     @Override
     public void deleteUser(Long id) {
-        userDao.deleteUser(id);
+        userRepository.deleteById(id);
     }
 
     @Override
     public void editUser(User user) {
-        userDao.editUser(user);
+        userRepository.save(user);
     }
 
     @Override
     public User getUserById(Long id) {
-        return userDao.getUserById(id);
+        User user = null;
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            user = userOptional.get();
+        }
+        return user;
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        return userRepository.findAll();
     }
 }
